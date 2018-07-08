@@ -15,6 +15,7 @@ module TheMealDbApiClient
   module Requests
     autoload :SearchMealsByName, 'the_meal_db_api_client/requests/search_meals_by_name'
     autoload :SearchMealsByMainIngredient, 'the_meal_db_api_client/requests/search_meals_by_main_ingredient'
+    autoload :FetchMealFullDetails, 'the_meal_db_api_client/requests/fetch_meal_full_details'
   end
 
   module Utils

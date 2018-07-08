@@ -30,6 +30,26 @@ module TheMealDbApiClient::Model
       @@search_by_main_ingredient_request.call(i: ingredient)
     end
 
+    # Find meal by Id
+    def self.find(id)
+      @@fetch_full_details_request ||= TheMealDbApiClient::Requests::FetchMealFullDetails.new
+      @@fetch_full_details_request.call(i: id).first
+    end
+
+    # Fetch full details of a preloaded Meal
+    def reload!
+      meal = Meal.find(@id.to_i)
+
+      if meal
+        meal.instance_variables.each do |instance_variable|
+          instance_variable_set(instance_variable, meal.instance_variable_get(instance_variable))
+        end
+        return true
+      else
+        return false
+      end
+    end
+
     # Instanciate a new Meal from hash params
     def self.from_hash(hash)
       meal = Meal.new *JSON_ATTRIBUTES.map(&hash.method(:[]))
