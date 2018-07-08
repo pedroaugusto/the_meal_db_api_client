@@ -18,15 +18,21 @@ module TheMealDbApiClient::Model
       @ingredients.dup
     end
 
-    # Search ingredients by name
+    # Search meals by name
     def self.search_by_name(name)
       @@search_by_name_request ||= TheMealDbApiClient::Requests::SearchMealsByName.new
       @@search_by_name_request.call(s: name)
     end
 
+    # Search meals by main ingredient
+    def self.search_by_main_ingredient(ingredient)
+      @@search_by_main_ingredient_request ||= TheMealDbApiClient::Requests::SearchMealsByMainIngredient.new
+      @@search_by_main_ingredient_request.call(i: ingredient)
+    end
+
     # Instanciate a new Meal from hash params
     def self.from_hash(hash)
-      meal = Meal.new *hash.fetch_values(*JSON_ATTRIBUTES)
+      meal = Meal.new *JSON_ATTRIBUTES.map(&hash.method(:[]))
       meal.build_ingredients(hash)
       meal
     end

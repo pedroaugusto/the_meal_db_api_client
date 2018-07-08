@@ -31,7 +31,8 @@ module TheMealDbApiClient
     end
 
     def convert_response(json)
-      json[@model::CLASS_KEY].map(&@model.method(:from_hash))
+      array = json[@model::CLASS_KEY] || []
+      array.map(&@model.method(:from_hash))
     end
 
     def validate_params(params)

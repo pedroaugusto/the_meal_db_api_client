@@ -4,7 +4,7 @@ RSpec.describe TheMealDbApiClient::Model::Meal do
 
   describe 'search_by_name' do
 
-    let(:meal) { build(:meal, :with_ingredients) }
+    let(:meal) { build(:meal, :with_all_fields, :with_ingredients) }
 
     let(:body) do
       {
@@ -73,6 +73,39 @@ RSpec.describe TheMealDbApiClient::Model::Meal do
 
     it "Maps the server response to models" do
       expect(described_class.search_by_name('Anything')).to eq([meal])
+    end
+  end
+
+  describe 'search_by_main_ingredient' do
+
+    let(:meal1) { build(:meal, id: 1, name: 'meal1', thumb: 'thumb1') }
+    let(:meal2) { build(:meal, id: 2, name: 'meal2', thumb: 'thumb2') }
+
+    let(:body) do
+      {
+        "meals" => [
+          {
+            "idMeal" => 1,
+            "strMeal" => "meal1",
+            "strMealThumb" => "thumb1",
+          },
+          {
+            "idMeal" => 2,
+            "strMeal" => "meal2",
+            "strMealThumb" => "thumb2",
+          }
+        ]
+      }.to_json
+    end
+
+    let(:response) { double "Response", body: body }
+
+    before do
+      allow(RestClient).to receive(:get) { response }
+    end
+
+    it "Maps the server response to models" do
+      expect(described_class.search_by_main_ingredient('Anything')).to eq([meal1, meal2])
     end
   end
 
