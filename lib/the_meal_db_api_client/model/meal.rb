@@ -70,9 +70,26 @@ module TheMealDbApiClient::Model
       end
     end
 
+    # Used for comparison
     def state
       [@id, @name, @area, @category, @instructions, @thumb, @tags, @youtube, @source, @modified, @ingredients]
     end
 
+    # Printable version
+    def to_s
+      <<-STRING
+        #{@name || 'Meal without name'}
+
+        Category: #{@category || '-'}
+
+        Area: #{@area || '-'}
+
+        Instructions:
+        #{@instructions || '-'}
+
+        Ingredients:
+        #{@ingredients.map(&:to_s).join("\n\t") || '-'}
+      STRING
+    end
   end
 end

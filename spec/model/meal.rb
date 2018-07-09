@@ -137,4 +137,16 @@ RSpec.describe TheMealDbApiClient::Model::Meal do
     end
   end
 
+  describe "to_s" do
+    subject { meal.to_s }
+
+    it { expect(meal.to_s).to include('Scrambled eggs') }
+    it { expect(meal.to_s).to include('Category: HFLC') }
+    it { expect(meal.to_s).to include('Area: American') }
+    it { expect(meal.to_s).to include('Instructions:') }
+    it { expect(meal.to_s).to include('Put the butter on a fridge along with the eggs and mix it.') }
+    it { expect(meal.to_s).to include('Ingredients:') }
+    it { expect(meal.to_s).to include('Butter - One spoon') }
+  end
+
 end

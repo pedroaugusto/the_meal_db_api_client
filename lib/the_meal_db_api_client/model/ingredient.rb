@@ -9,8 +9,14 @@ module TheMealDbApiClient::Model
       @name, @measure = args
     end
 
+    # Used for comparison
     def state
       [@name, @measure]
+    end
+
+    # Printable version
+    def to_s
+      "#{@name} - #{@measure}"
     end
 
   end
