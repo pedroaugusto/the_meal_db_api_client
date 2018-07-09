@@ -8,6 +8,7 @@ module TheMealDbApiClient
 
     attr_reader :path, :params
 
+    # Executes the API call
     def call(params)
       validate_params(params)
 
@@ -21,6 +22,7 @@ module TheMealDbApiClient
 
     private
 
+    # Fetch response body and parse it from JSON to Models
     def manage_response(response)
       begin
         json = JSON.parse(response.body)
@@ -30,11 +32,13 @@ module TheMealDbApiClient
       end
     end
 
+    # Instantiate Models based on JSON attributes
     def convert_response(json)
       array = json[@model::CLASS_KEY] || []
       array.map(&@model.method(:from_hash))
     end
 
+    # Validates id the request params are allowed
     def validate_params(params)
       if params && params.any?
         params.each do |param, value|
@@ -45,6 +49,7 @@ module TheMealDbApiClient
       end
     end
 
+    # Build the URL to be called based on the internal variables
     def build_url
       url = "#{BASE_URL}#{@@config.api_key}/#{@path}.#{FORMAT}"
     end
